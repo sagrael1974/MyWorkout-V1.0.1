@@ -4,13 +4,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.myworkout.navigation.NavRoutes
+import com.example.myworkout.ui.screens.HomeScreen
+import com.example.myworkout.ui.screens.NutritionScreen
+import com.example.myworkout.ui.screens.TrainingScreen
 import com.example.myworkout.ui.theme.MyWorkoutTheme
+import com.example.myworkout.ui.components.BottomNavigation
+import androidx.compose.material3.Scaffold
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,22 +30,46 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("MyWorkout App")
+                    val navController = rememberNavController()
+                    
+                    Scaffold(
+                        bottomBar = { BottomNavigation(navController = navController) }
+                    ) { paddingValues ->
+                        NavHost(
+                            navController = navController,
+                            startDestination = NavRoutes.HOME,
+                            modifier = Modifier.padding(paddingValues)
+                        ) {
+                            composable(NavRoutes.HOME) {
+                                HomeScreen()
+                            }
+                            
+                            composable(NavRoutes.TRAINING) {
+                                TrainingScreen(
+                                    workoutId = null,
+                                    navController = navController
+                                )
+                            }
+                            
+                            composable(
+                                route = NavRoutes.TRAINING_DETAIL,
+                                arguments = listOf(
+                                    navArgument("workoutId") { type = NavType.StringType }
+                                )
+                            ) { backStackEntry ->
+                                TrainingScreen(
+                                    workoutId = backStackEntry.arguments?.getString("workoutId"),
+                                    navController = navController
+                                )
+                            }
+                            
+                            composable(NavRoutes.NUTRITION) {
+                                NutritionScreen(navController = navController)
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Willkommen bei $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MyWorkoutTheme {
-        Greeting("MyWorkout App")
     }
 }
