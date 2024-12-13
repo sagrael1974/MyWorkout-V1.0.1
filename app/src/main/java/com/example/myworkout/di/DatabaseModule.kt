@@ -6,6 +6,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.myworkout.data.local.AppDatabase
 import com.example.myworkout.data.local.dao.WorkoutDao
+import com.example.myworkout.data.local.dao.MealDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,5 +49,10 @@ object DatabaseModule {
     @Provides
     fun provideWorkoutDao(database: AppDatabase): WorkoutDao {
         return database.workoutDao()
+    }
+
+    @Provides
+    fun provideMealDao(database: AppDatabase): MealDao {
+        return database.mealDao()
     }
 } 
