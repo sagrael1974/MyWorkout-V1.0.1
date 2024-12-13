@@ -6,9 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.myworkout.ui.components.BottomNavigationBar
 
 // Screen Imports
 import com.example.myworkout.ui.screens.HomeScreen
+import com.example.myworkout.ui.screens.WorkoutScreen
 import com.example.myworkout.ui.screens.NutritionScreen
 import com.example.myworkout.ui.screens.TrainingScreen
 
@@ -18,27 +20,33 @@ fun AppNavigation() {
     
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = NavRoutes.HOME
     ) {
-        composable(route = Screen.Home.route) {
-            HomeScreen()
+        composable(NavRoutes.HOME) {
+            HomeScreen(navController)
         }
-        
-        composable(route = Screen.Nutrition.route) {
-            NutritionScreen(navController = navController)
+        composable(NavRoutes.WORKOUT) {
+            WorkoutScreen(navController)
         }
-        
         composable(
-            route = Screen.Training.route,
+            route = "${NavRoutes.TRAINING}/{workoutId}",
             arguments = listOf(
                 navArgument("workoutId") {
                     type = NavType.StringType
                     nullable = true
+                    defaultValue = null
                 }
             )
-        ) { entry ->
-            val workoutId = entry.arguments?.getString("workoutId")
-            TrainingScreen(workoutId = workoutId, navController = navController)
+        ) { backStackEntry ->
+            TrainingScreen(
+                workoutId = backStackEntry.arguments?.getString("workoutId"),
+                navController = navController
+            )
+        }
+        composable(NavRoutes.NUTRITION) {
+            NutritionScreen(navController)
         }
     }
+
+    BottomNavigationBar(navController)
 } 

@@ -12,7 +12,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myworkout.navigation.NavRoutes
 
 @Composable
-fun BottomNavigation(navController: NavController) {
+fun BottomNavigationBar(navController: NavController) {
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -31,9 +31,9 @@ fun BottomNavigation(navController: NavController) {
         NavigationBarItem(
             icon = { Icon(Icons.Filled.Person, contentDescription = "Training") },
             label = { Text("Training") },
-            selected = currentRoute == NavRoutes.TRAINING,
+            selected = currentRoute?.startsWith(NavRoutes.TRAINING) == true,
             onClick = {
-                navController.navigate(NavRoutes.TRAINING) {
+                navController.navigate("${NavRoutes.TRAINING}/null") {
                     popUpTo(NavRoutes.HOME)
                 }
             }
