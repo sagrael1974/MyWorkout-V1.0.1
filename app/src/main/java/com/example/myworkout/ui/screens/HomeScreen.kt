@@ -28,14 +28,28 @@ fun HomeScreen(navController: NavController) {
             modifier = Modifier.padding(bottom = 16.dp)
         )
         
-        Button(
-            onClick = { navController.navigate(Screen.Training.route) },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text("Zu den Workouts")
+            Button(
+                onClick = { navController.navigate(Screen.Training.route) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            ) {
+                Text("Zu den Workouts")
+            }
+            
+            Button(
+                onClick = { navController.navigate(Screen.Nutrition.route) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            ) {
+                Text("Zur Ernährung")
+            }
         }
     }
 } 

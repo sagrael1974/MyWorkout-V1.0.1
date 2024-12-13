@@ -9,5 +9,5 @@ data class Meal(
     val protein: Float,
     val carbs: Float,
     val fat: Float,
-    val date: LocalDateTime = LocalDateTime.now()
+    val date: LocalDateTime
 ) 

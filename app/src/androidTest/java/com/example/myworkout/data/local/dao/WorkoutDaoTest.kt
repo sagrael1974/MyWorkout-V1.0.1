@@ -2,6 +2,7 @@ package com.example.myworkout.data.local.dao
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.myworkout.data.local.AppDatabase
 import com.example.myworkout.data.local.entity.WorkoutEntity
 import kotlinx.coroutines.flow.first
@@ -10,7 +11,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert.*
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 class WorkoutDaoTest {
     private lateinit var database: AppDatabase
     private lateinit var workoutDao: WorkoutDao

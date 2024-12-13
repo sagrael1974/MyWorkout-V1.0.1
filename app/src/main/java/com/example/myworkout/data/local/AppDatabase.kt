@@ -3,22 +3,22 @@ package com.example.myworkout.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.myworkout.data.local.dao.WorkoutDao
-import com.example.myworkout.data.local.entity.WorkoutEntity
-import com.example.myworkout.data.local.entity.MealEntity
 import com.example.myworkout.data.local.dao.MealDao
-import com.example.myworkout.data.local.converter.DateTimeConverter
+import com.example.myworkout.data.local.dao.WorkoutDao
+import com.example.myworkout.data.local.entity.MealEntity
+import com.example.myworkout.data.local.entity.WorkoutEntity
+import com.example.myworkout.data.local.converter.DateConverter
 
 @Database(
     entities = [
-        WorkoutEntity::class,
-        MealEntity::class
+        MealEntity::class,
+        WorkoutEntity::class
     ],
-    version = 2,
+    version = 1,
     exportSchema = true
 )
-@TypeConverters(DateTimeConverter::class)
+@TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun workoutDao(): WorkoutDao
     abstract fun mealDao(): MealDao
+    abstract fun workoutDao(): WorkoutDao
 } 

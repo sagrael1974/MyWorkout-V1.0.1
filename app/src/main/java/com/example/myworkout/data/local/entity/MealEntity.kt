@@ -2,7 +2,6 @@ package com.example.myworkout.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
 
 @Entity(tableName = "meals")
 data class MealEntity(
@@ -13,5 +12,5 @@ data class MealEntity(
     val protein: Float,
     val carbs: Float,
     val fat: Float,
-    val date: LocalDateTime
+    val date: Long
 ) 

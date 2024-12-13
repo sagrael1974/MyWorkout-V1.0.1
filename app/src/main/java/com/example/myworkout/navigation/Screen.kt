@@ -14,8 +14,13 @@ sealed class Screen(
     object Home : Screen("home", "Home", Icons.Default.Home)
     object Training : Screen("training", "Training", Icons.Default.SportsGymnastics)
     object Nutrition : Screen("nutrition", "Ernährung", Icons.Default.Restaurant)
+    object NutritionStats : Screen("nutrition/stats", "Ernährungsstatistik", Icons.Default.Restaurant)
+
+    object WorkoutDetail : Screen("training/{workoutId}", "Training", Icons.Default.SportsGymnastics) {
+        fun createRoute(workoutId: String) = "training/$workoutId"
+    }
 
     companion object {
-        val items = listOf(Home, Training, Nutrition)
+        val items = listOf(Home, Training, Nutrition, NutritionStats)
     }
 } 
