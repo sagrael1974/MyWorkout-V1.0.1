@@ -2,52 +2,61 @@ package com.example.myworkout.ui.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.myworkout.navigation.NavRoutes
+import androidx.compose.ui.graphics.Color
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
-    NavigationBar {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-
+fun AppBottomNavigation(
+    currentRoute: String,
+    onNavigateToHome: () -> Unit,
+    onNavigateToWorkouts: () -> Unit,
+    onNavigateToProfile: () -> Unit
+) {
+    NavigationBar(
+        containerColor = Color.Black,
+        contentColor = Color.White
+    ) {
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-            label = { Text("Home") },
-            selected = currentRoute == NavRoutes.HOME,
-            onClick = {
-                navController.navigate(NavRoutes.HOME) {
-                    popUpTo(NavRoutes.HOME) { inclusive = true }
-                }
-            }
+            icon = { Icon(Icons.Default.Home, "Discover") },
+            label = { Text("Discover") },
+            selected = currentRoute == "home",
+            onClick = onNavigateToHome,
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.White,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = Color.White,
+                unselectedTextColor = Color.Gray,
+                indicatorColor = Color.DarkGray
+            )
         )
-
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Person, contentDescription = "Training") },
-            label = { Text("Training") },
-            selected = currentRoute?.startsWith(NavRoutes.TRAINING) == true,
-            onClick = {
-                navController.navigate("${NavRoutes.TRAINING}/null") {
-                    popUpTo(NavRoutes.HOME)
-                }
-            }
+            icon = { Icon(Icons.Default.List, "My Workouts") },
+            label = { Text("My Workouts") },
+            selected = currentRoute == "workouts",
+            onClick = onNavigateToWorkouts,
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.White,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = Color.White,
+                unselectedTextColor = Color.Gray,
+                indicatorColor = Color.DarkGray
+            )
         )
-
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Menu, contentDescription = "Ernährung") },
-            label = { Text("Ernährung") },
-            selected = currentRoute == NavRoutes.NUTRITION,
-            onClick = {
-                navController.navigate(NavRoutes.NUTRITION) {
-                    popUpTo(NavRoutes.HOME)
-                }
-            }
+            icon = { Icon(Icons.Default.Person, "Profile") },
+            label = { Text("Profile") },
+            selected = currentRoute == "profile",
+            onClick = onNavigateToProfile,
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.White,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = Color.White,
+                unselectedTextColor = Color.Gray,
+                indicatorColor = Color.DarkGray
+            )
         )
     }
 } 

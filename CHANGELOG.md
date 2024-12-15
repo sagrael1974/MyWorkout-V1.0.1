@@ -46,7 +46,7 @@
   - Gesamtanzahl der Workouts
   - Durchschnittliche Workout-Dauer
   - Gesamte verbrannte Kalorien
-  - Workouts pro Kategorie
+  - Vollständige Workout-Listen pro Kategorie für detaillierte Statistiken
 
 ## Navigation
 - Bottom Navigation
@@ -60,6 +60,9 @@
 - Verbessertes Dropdown-Menü für WorkoutType
 - Explizite Typisierung in EditWorkoutDialog
 - Fehlerbehandlung für leere Workouts
+- StatisticsViewModel optimiert für detaillierte Kategorie-Auswertungen
+- WorkoutMapper für Entity/Domain Konvertierung implementiert
+- EditWorkoutDialog mit ViewModel Integration
 
 ## Fehlerbehandlung
 - Validierung von Benutzereingaben
@@ -90,3 +93,22 @@ v1.0.1
 - Implementierung des WorkoutMappers
 - Verbesserung des EditWorkoutDialogs
 - Hinzufügung der Statistik-Funktionen
+
+## [1.0.2] - 2024-12-15
+
+### Fixed
+- UI: Added bottom padding (80.dp) to HomeScreen to prevent content from being hidden behind bottom navigation bar
+- Database: Updated Room database version from 1 to 3 to accommodate schema changes
+- Database: Added fallbackToDestructiveMigration to handle database schema updates
+
+### Changed
+- Database: Optimized WorkoutDao queries for better performance
+- Database: Improved WorkoutDao implementation for category-based queries
+- UI: Redesigned HomeScreen layout with four featured workout cards (Strength, Cardio, HIIT, Flexibility)
+- UI: Moved "Statistiken" and "Training starten" buttons below featured cards
+- UI: Improved spacing and layout consistency in HomeScreen
+
+### Added
+- Database: Added new schema version (version 3) for Room database
+- UI: Added NEW label to featured workout cards
+- UI: Added gradient overlay to featured cards for better text readability

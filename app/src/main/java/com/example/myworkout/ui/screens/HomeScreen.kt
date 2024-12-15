@@ -8,9 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,19 +17,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myworkout.R
+import com.example.myworkout.ui.components.AppBottomNavigation
+import com.example.myworkout.ui.components.WorkoutItem
 import com.example.myworkout.ui.viewmodels.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToWorkoutDetail: (Long) -> Unit,
+    onNavigateToWorkout: (Long) -> Unit,
     navigateToBodyWorkout: () -> Unit,
-    navigateToCardioWorkout: () -> Unit
+    navigateToCardioWorkout: () -> Unit,
+    navigateToSettings: () -> Unit,
+    navigateToStatistics: () -> Unit,
+    navigateToTraining: () -> Unit
 ) {
     Scaffold(
         containerColor = Color.White,
@@ -51,7 +52,7 @@ fun HomeScreen(
                     containerColor = Color.White,
                 ),
                 actions = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { navigateToSettings() }) {
                         Icon(
                             Icons.Default.Settings, 
                             contentDescription = "Settings",
@@ -62,50 +63,12 @@ fun HomeScreen(
             )
         },
         bottomBar = {
-            NavigationBar(
-                containerColor = Color.Black,
-                contentColor = Color.White
-            ) {
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Home, "Discover") },
-                    label = { Text("Discover") },
-                    selected = true,
-                    onClick = { },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color.White,
-                        unselectedIconColor = Color.Gray,
-                        selectedTextColor = Color.White,
-                        unselectedTextColor = Color.Gray,
-                        indicatorColor = Color.DarkGray
-                    )
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.List, "My Workouts") },
-                    label = { Text("My Workouts") },
-                    selected = false,
-                    onClick = { },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color.White,
-                        unselectedIconColor = Color.Gray,
-                        selectedTextColor = Color.White,
-                        unselectedTextColor = Color.Gray,
-                        indicatorColor = Color.DarkGray
-                    )
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Person, "Profile") },
-                    label = { Text("Profile") },
-                    selected = false,
-                    onClick = { },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color.White,
-                        unselectedIconColor = Color.Gray,
-                        selectedTextColor = Color.White,
-                        unselectedTextColor = Color.Gray,
-                        indicatorColor = Color.DarkGray
-                    )
-                )
-            }
+            AppBottomNavigation(
+                currentRoute = "home",
+                onNavigateToHome = { /* Bereits auf Home */ },
+                onNavigateToWorkouts = { /* Navigation zu Workouts */ },
+                onNavigateToProfile = { /* Navigation zu Profile */ }
+            )
         }
     ) { padding ->
         LazyColumn(
@@ -113,7 +76,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            // Featured Cards
+            // Erste Reihe: Strength und Cardio
             item {
                 Row(
                     modifier = Modifier
@@ -134,106 +97,57 @@ fun HomeScreen(
                 }
             }
 
-            // Featured Workout Cards
+            // Zweite Reihe: HIIT und Flexibility
             item {
-                Card(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(160.dp)
                         .padding(horizontal = 16.dp, vertical = 8.dp),
-                    shape = RoundedCornerShape(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Box(
+                    FeaturedCard(
+                        modifier = Modifier.weight(1f),
+                        title = "HIIT",
+                        onClick = { /* HIIT Navigation */ }
+                    )
+                    FeaturedCard(
+                        modifier = Modifier.weight(1f),
+                        title = "Flexibility",
+                        onClick = { /* Flexibility Navigation */ }
+                    )
+                }
+            }
+
+            // Nach den zwei Featured Card Rows
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Button(
+                        onClick = { navigateToStatistics() },
                         modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .weight(1f)
+                            .padding(end = 8.dp)
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.Bottom
-                        ) {
-                            Text(
-                                text = "Test Workout",
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Text(
-                                text = "...",
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
+                        Text("Statistiken")
+                    }
+                    Button(
+                        onClick = { navigateToTraining() },
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 8.dp)
+                    ) {
+                        Text("Training starten")
                     }
                 }
             }
 
-            // Second Featured Workout Card
+            // Spacer am Ende
             item {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(160.dp)
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.Bottom
-                        ) {
-                            Text(
-                                text = "Test Workout 2",
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Text(
-                                text = "...",
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
-                    }
-                }
-            }
-
-            // Third Featured Workout Card
-            item {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(160.dp)
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.Bottom
-                        ) {
-                            Text(
-                                text = "Test Workout 3",
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Text(
-                                text = "...",
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
-                    }
-                }
+                Spacer(modifier = Modifier.height(80.dp))
             }
         }
     }
@@ -248,6 +162,8 @@ private fun FeaturedCard(
     val imageId = when(title) {
         "Strength" -> R.drawable.strength_background
         "Cardio" -> R.drawable.cardio_background
+        "HIIT" -> R.drawable.strength_background
+        "Flexibility" -> R.drawable.cardio_background
         else -> R.drawable.strength_background
     }
     android.util.Log.d("FeaturedCard", "Loading image with id: $imageId for title: $title")
